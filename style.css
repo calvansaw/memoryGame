@@ -1,14 +1,21 @@
 * {
-	border: 5px solid gold;
+	border: 2px solid gold;
 }
-#container {
+body {
     display: flex;
-    justify-content: space-around;
     flex-wrap: wrap;
 }
+#container {
+    border: 5px solid violet;
+    width: 500px;
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+}
 .cards {
-    width: 100px;
-    height: 150px;
-    border: solid black;
-
+	width: 55px;
+	height: 150px;
+	border: solid black;
+    flex: 0 0 22%;
+    background-color: black;
 }
