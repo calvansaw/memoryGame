@@ -1,0 +1,14 @@
+* {
+	border: 5px solid gold;
+}
+#container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.cards {
+    width: 100px;
+    height: 150px;
+    border: solid black;
+
+}
