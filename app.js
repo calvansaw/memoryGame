@@ -11,10 +11,11 @@ $(() => {
 		'https://upload.wikimedia.org/wikipedia/en/b/bf/Mace_Windu.png',
 		'https://static.wikia.nocookie.net/p__/images/7/74/Star-wars-obi-wan-kenobi-jedi-cloak-3.jpg/revision/latest?cb=20171231024120&path-prefix=protagonist',
 	];
-
+	
+	//function to show img by changing class
 	const $show = () => {
 		$('#container').on('click', (event) => {
-			$(event.target).css('opacity', '1');
+			$(event.target).attr('class', 'cards-show');
 		});
 	};
 
@@ -27,9 +28,9 @@ $(() => {
 		for (let i = 0; i < numOfCards; ) {
 			//loop to repeat imgIndex twice
 			for (let j = 0; j < 2; j++) {
-				const $img = $('<img>').attr('id', i).addClass('cards');
+				const $img = $('<img>').attr('id', i).addClass('cards-hide');
 				i++;
-				$img.attr('src', cardFront[imgIndex]).css('opacity', '0.5');
+				$img.attr('src', cardFront[imgIndex]);
 				$('#container').append($img);
 			}
 			imgIndex++;
