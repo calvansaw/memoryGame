@@ -2,9 +2,6 @@ $(() => {
 	console.log('app.js connected');
 	console.log($);
 
-	const imgAlt = [];
-	let click = 0;
-
 	const cardBack =
 		'https://upload.wikimedia.org/wikipedia/en/thumb/8/87/StarWarsMoviePoster1977.jpg/220px-StarWarsMoviePoster1977.jpg';
 
@@ -17,20 +14,26 @@ $(() => {
 
 	const alt = ['yoda', 'qui-gon-jinn', 'mace_windu', 'obi-wan'];
 
+	const imgID = [];
+	const imgAlt = [];
+	let click = 0;
+
 	//function to push alt text into imgAlt array
-	const storeAlt = (event) => {
+	const storeArr = (event) => {
 		imgAlt.push($(event.target).attr('alt'));
+		imgID.push($(event.target).attr('id'));
 	};
 
 	//event listener and handler on 'click' (show image, match img alt text)
+	//match function only called every 2 clicks
 	const show = () => {
 		$('#container').on('click', (event) => {
 			$(event.target).attr('class', 'cards-show');
-			storeAlt(event);
+			storeArr(event);
 			console.log(imgAlt);
 			click++;
 			if (click % 2 === 0) {
-				matchStoredAlt(event);
+				matchStoredArr(event);
 			}
 		});
 	};
@@ -47,7 +50,8 @@ $(() => {
 			for (let j = 0; j < 2; j++) {
 				const $img = $('<img>')
 					.attr('alt', alt[altIndex])
-					.addClass('cards-hide');
+					.addClass('cards-hide')
+					.attr('id', i);
 				i++;
 				$img.attr('src', cardFront[imgIndex]);
 				$('#container').append($img);
@@ -68,15 +72,28 @@ $(() => {
 		}
 	};
 
+	const hideCards = () => {
+		$(`#${imgID[0]}, #${imgID[1]}`).attr('class', 'cards-hide');
+		// console.log(imgID);
+		imgID.splice(0, 2);
+	};
+
+	const removeCards = () => {
+		$(`#${imgID[0]}, #${imgID[1]}`).fadeOut(250);
+	};
 
 	//function to match img alt text
-	const matchStoredAlt = () => {
+	const matchStoredArr = () => {
 		if (imgAlt[0] === imgAlt[1]) {
-			console.log('match');
+			// console.log(imgID);
+			removeCards();
+			imgID.splice(0, 2);
 		} else {
 			console.log('***NOT A MATCH***');
+			const smallDelay = setTimeout(hideCards, 250);
 		}
-		//empty imgAlt array --> to match next set of cards
+
+		//empty imgAlt array to match next set of cards
 		imgAlt.splice(0, 2);
 	};
 
