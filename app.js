@@ -12,30 +12,35 @@ $(() => {
 		'https://static.wikia.nocookie.net/p__/images/7/74/Star-wars-obi-wan-kenobi-jedi-cloak-3.jpg/revision/latest?cb=20171231024120&path-prefix=protagonist',
 	];
 
-	const alt = ['yoda', 'qui-gon-jinn', 'mace_windu', 'obi-wan'];
+	const alt = ['20', '32', '51', '10'];
 
+	//AJAX
+	const ajaxCall = (peopleID) => {
+		$.ajax({
+			url: 'http://swapi.dev/api/people/' + peopleID,
+		}).then((data) => {
+			console.log(data.name);
+			console.log(data.height);
+			console.log(data.mass);
+			console.log(data.hair_color);
+			console.log(data.skin_color);
+			console.log(data.eye_color);
+			console.log(data.birth_year);
+			console.log(data.gender);
+		});
+	};
+	//ajaxCall(alt[0]);
+
+	//img id must be unique for every card as it is used to hide and remove cards
+	//img alt is used to match cards
 	const imgID = [];
 	const imgAlt = [];
 	let click = 0;
 
-	//function to push alt text into imgAlt array
+	//function to push alt string into imgAlt array and img id into imgID array
 	const storeArr = (event) => {
 		imgAlt.push($(event.target).attr('alt'));
 		imgID.push($(event.target).attr('id'));
-	};
-
-	//event listener and handler on 'click' (show image, match img alt text)
-	//match function only called every 2 clicks
-	const show = () => {
-		$('#container').on('click', (event) => {
-			$(event.target).attr('class', 'cards-show');
-			storeArr(event);
-			console.log(imgAlt);
-			click++;
-			if (click % 2 === 0) {
-				matchStoredArr(event);
-			}
-		});
 	};
 
 	const $div = $('<div>').attr('id', 'container');
@@ -51,7 +56,19 @@ $(() => {
 				const $img = $('<img>')
 					.attr('alt', alt[altIndex])
 					.addClass('cards-hide')
-					.attr('id', i);
+					.attr('id', i)
+					//event listener and handler on 'click' (show image, match img alt text)
+					.on('click', (event) => {
+						$(event.target).attr('class', 'cards-show');
+						storeArr(event);
+						ajaxCall($(event.target).attr('alt'));
+						console.log(imgAlt);
+						click++;
+						//match function only called every 2 clicks
+						if (click % 2 === 0) {
+							matchStoredArr();
+						}
+					});
 				i++;
 				$img.attr('src', cardFront[imgIndex]);
 				$('#container').append($img);
@@ -82,7 +99,7 @@ $(() => {
 		$(`#${imgID[0]}, #${imgID[1]}`).fadeOut(250);
 	};
 
-	//function to match img alt text
+	//function to match img alt string
 	const matchStoredArr = () => {
 		if (imgAlt[0] === imgAlt[1]) {
 			// console.log(imgID);
@@ -90,7 +107,7 @@ $(() => {
 			imgID.splice(0, 2);
 		} else {
 			console.log('***NOT A MATCH***');
-			const smallDelay = setTimeout(hideCards, 250);
+			setTimeout(hideCards, 250);
 		}
 
 		//empty imgAlt array to match next set of cards
@@ -98,5 +115,4 @@ $(() => {
 	};
 
 	generateCards(10);
-	show();
 });
