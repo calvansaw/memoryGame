@@ -5,31 +5,17 @@ $(() => {
 	const cardBack =
 		'https://upload.wikimedia.org/wikipedia/en/thumb/8/87/StarWarsMoviePoster1977.jpg/220px-StarWarsMoviePoster1977.jpg';
 
-	const cardFront = [
-		'https://upload.wikimedia.org/wikipedia/en/0/00/The_Child_aka_Baby_Yoda_%28Star_Wars%29.jpg',
-		'https://static.wikia.nocookie.net/characters/images/6/6c/Qui-Gon_Jinn.jpg/revision/latest/scale-to-width-down/340?cb=20171230234226',
-		'https://upload.wikimedia.org/wikipedia/en/b/bf/Mace_Windu.png',
-		'https://static.wikia.nocookie.net/p__/images/7/74/Star-wars-obi-wan-kenobi-jedi-cloak-3.jpg/revision/latest?cb=20171231024120&path-prefix=protagonist',
-	];
+	const cardFront = [];
 
 	const alt = ['20', '32', '51', '10'];
 
-	//AJAX
-	const ajaxCall = (peopleID) => {
-		$.ajax({
-			url: 'https://swapi.dev/api/people/' + peopleID,
-		}).then((data) => {
-			console.log(data.name);
-			console.log(data.height);
-			console.log(data.mass);
-			console.log(data.hair_color);
-			console.log(data.skin_color);
-			console.log(data.eye_color);
-			console.log(data.birth_year);
-			console.log(data.gender);
-		});
+	//18 to 71
+	const randomNumberGenerator = () => {
+		return Math.floor(Math.random() * 54) + 18;
 	};
-	//ajaxCall(alt[0]);
+	console.log(randomNumberGenerator());
+
+	//AJAX
 
 	//img id must be unique for every card as it is used to hide and remove cards
 	//img alt is used to match cards
@@ -46,48 +32,104 @@ $(() => {
 	const $div = $('<div>').attr('id', 'container');
 	$('body').append($div);
 
-	//function to generate desired number of cards
-	const generateCards = (numOfCards) => {
-		let imgIndex = 0;
-		let altIndex = 0;
-		for (let i = 0; i < numOfCards; ) {
-			//loop to repeat imgIndex twice
-			for (let j = 0; j < 2; j++) {
-				const $img = $('<img>')
-					.attr('alt', alt[altIndex])
-					.addClass('cards-hide')
-					.attr('id', i)
-					//event listener and handler on 'click' (show image, match img alt text)
-					.on('click', (event) => {
-						$(event.target).attr('class', 'cards-show');
-						storeArr(event);
-						ajaxCall($(event.target).attr('alt'));
-						console.log(imgAlt);
-						click++;
-						//match function only called every 2 clicks
-						if (click % 2 === 0) {
-							matchStoredArr();
-						}
-					});
-				i++;
-				$img.attr('src', cardFront[imgIndex]);
-				$('#container').append($img);
-			}
-			altIndex++;
-			imgIndex++;
+	// const clickHandler = (event) => {
+	// 	$(event.target).attr('class', 'cards-show');
+	// 	storeArr(event);
+	// 	$(event.target).off('click');
+	// 	console.log(imgAlt);
+	// 	click++;
+	// 	//match function only called every 2 clicks
+	// 	if (click % 2 === 0) {
+	// 		matchStoredArr();
+	// 	}
+	// };
 
-			//condition to reset imgIndex based on how many img stored in array
-			if (imgIndex > cardFront.length - 1) {
-				imgIndex = 0;
-			}
-			//condition to reset altIndex
-			if (altIndex > alt.length - 1) {
-				altIndex = 0;
-			}
-			// $img.attr('src', cardFront[imgIndex]);
-			// imgIndex++;
+	let imgIndex = 0;
+	const generateCards = (numOfCards) => {
+		for (let i = 0; i < numOfCards; i++) {
+			$.ajax({
+				url:
+					'https://akabab.github.io/starwars-api/api/id/' +
+					randomNumberGenerator() +
+					'.json',
+			}).then(
+				(data) => {
+					for (let j = 0; j < 2; j++) {
+						const $img = $('<img>')
+							.attr('alt', data.name)
+							.addClass('cards-hide')
+							.attr('id', imgIndex)
+							.on('click', (event) => {
+								if (
+									$(event.target).attr('class') !==
+									'cards-show'
+								) {
+									$(event.target).attr('class', 'cards-show');
+									storeArr(event);
+									// $(event.target).off('click');
+									console.log(imgAlt);
+									click++;
+									//match function only called every 2 clicks
+									if (click % 2 === 0) {
+										matchStoredArr();
+									}
+								}
+							});
+						imgIndex++;
+
+						$img.attr('src', data.image);
+						$('#container').append($img);
+					}
+				},
+				() => {
+					alert('Error something went wrong');
+				}
+			);
 		}
 	};
+
+	// //function to generate desired number of cards
+	// const generateCards = (numOfCards) => {
+	// 	let imgIndex = 0;
+	// 	let altIndex = 0;
+	// 	for (let i = 0; i < numOfCards; ) {
+	// 		//loop to repeat imgIndex twice
+	// 		for (let j = 0; j < 2; j++) {
+	// 			const $img = $('<img>')
+	// 				.attr('alt', alt[altIndex])
+	// 				.addClass('cards-hide')
+	// 				.attr('id', i)
+	// 				//event listener and handler on 'click' (show image, match img alt text)
+	// 				.on('click', (event) => {
+	// 					$(event.target).attr('class', 'cards-show');
+	// 					storeArr(event);
+
+	// 					console.log(imgAlt);
+	// 					click++;
+	// 					//match function only called every 2 clicks
+	// 					if (click % 2 === 0) {
+	// 						matchStoredArr();
+	// 					}
+	// 				});
+	// 			i++;
+	// 			$img.attr('src', cardFront[imgIndex]);
+	// 			$('#container').append($img);
+	// 		}
+	// 		altIndex++;
+	// 		imgIndex++;
+
+	// 		//condition to reset imgIndex based on how many img stored in array
+	// 		if (imgIndex > cardFront.length - 1) {
+	// 			imgIndex = 0;
+	// 		}
+	// 		//condition to reset altIndex
+	// 		if (altIndex > alt.length - 1) {
+	// 			altIndex = 0;
+	// 		}
+	// 		// $img.attr('src', cardFront[imgIndex]);
+	// 		// imgIndex++;
+	// 	}
+	// };
 
 	const hideCards = () => {
 		$(`#${imgID[0]}, #${imgID[1]}`).attr('class', 'cards-hide');
@@ -114,5 +156,5 @@ $(() => {
 		imgAlt.splice(0, 2);
 	};
 
-	generateCards(10);
+	generateCards(8);
 });
