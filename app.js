@@ -17,7 +17,7 @@ $(() => {
 	//AJAX
 	const ajaxCall = (peopleID) => {
 		$.ajax({
-			url: 'http://swapi.dev/api/people/' + peopleID,
+			url: 'https://swapi.dev/api/people/' + peopleID,
 		}).then((data) => {
 			console.log(data.name);
 			console.log(data.height);
