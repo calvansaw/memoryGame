@@ -2,26 +2,25 @@ $(() => {
 	console.log('app.js connected');
 	console.log($);
 
-	const cardBack =
-		'https://upload.wikimedia.org/wikipedia/en/thumb/8/87/StarWarsMoviePoster1977.jpg/220px-StarWarsMoviePoster1977.jpg';
+	// const cardBack =
+	// 	'https://upload.wikimedia.org/wikipedia/en/thumb/8/87/StarWarsMoviePoster1977.jpg/220px-StarWarsMoviePoster1977.jpg';
 
-	const cardFront = [];
-
-	const alt = ['20', '32', '51', '10'];
-
-	//18 to 71
-	const randomNumberGenerator = () => {
-		return Math.floor(Math.random() * 54) + 18;
-	};
-	console.log(randomNumberGenerator());
-
-	//AJAX
-
-	//img id must be unique for every card as it is used to hide and remove cards
-	//img alt is used to match cards
+	//imgID array is used to hide and remove cards
+	//imgAlt array is used to match cards
+	//imgIndex variable is used to set id for img so that it is in running order
+	//cardFront array is used to store images from AJAX call - to be used for mirror
+	//alt array is used to store name of characters from AJAX call - to be used for mirror
 	const imgID = [];
 	const imgAlt = [];
 	let click = 0;
+	const numOfCards = 8;
+	const cardFront = [];
+	const alt = [];
+	let imgIndex = 0;
+
+	const randomNumberGenerator = (multiply, lowest) => {
+		return Math.floor(Math.random() * multiply) + lowest;
+	};
 
 	//function to push alt string into imgAlt array and img id into imgID array
 	const storeArr = (event) => {
@@ -32,60 +31,91 @@ $(() => {
 	const $div = $('<div>').attr('id', 'container');
 	$('body').append($div);
 
-	// const clickHandler = (event) => {
-	// 	$(event.target).attr('class', 'cards-show');
-	// 	storeArr(event);
-	// 	$(event.target).off('click');
-	// 	console.log(imgAlt);
-	// 	click++;
-	// 	//match function only called every 2 clicks
-	// 	if (click % 2 === 0) {
-	// 		matchStoredArr();
-	// 	}
-	// };
-
-	let imgIndex = 0;
-	const generateCards = (numOfCards) => {
-		for (let i = 0; i < numOfCards; i++) {
+	//Generate cards
+	const generateCards = (setCards) => {
+		console.log('run AJAX');
+		for (let i = 0; i < setCards; i++) {
 			$.ajax({
 				url:
 					'https://akabab.github.io/starwars-api/api/id/' +
-					randomNumberGenerator() +
+					randomNumberGenerator(54, 18) +
 					'.json',
 			}).then(
 				(data) => {
-					for (let j = 0; j < 2; j++) {
-						const $img = $('<img>')
-							.attr('alt', data.name)
-							.addClass('cards-hide')
-							.attr('id', imgIndex)
-							.on('click', (event) => {
-								if (
-									$(event.target).attr('class') !==
-									'cards-show'
-								) {
-									$(event.target).attr('class', 'cards-show');
-									storeArr(event);
-									// $(event.target).off('click');
-									console.log(imgAlt);
-									click++;
-									//match function only called every 2 clicks
-									if (click % 2 === 0) {
-										matchStoredArr();
-									}
-								}
-							});
-						imgIndex++;
+					cardFront.push(data.image);
+					alt.push(data.name);
+					console.log(cardFront);
+					console.log(alt);
 
-						$img.attr('src', data.image);
-						$('#container').append($img);
-					}
+					const $img = $('<img>')
+						.attr('alt', data.name)
+						.addClass('cards-hide')
+						.attr('id', imgIndex)
+						.on('click', (event) => {
+							//prevent double click on same card bug
+							if (
+								$(event.target).attr('class') !== 'cards-show'
+							) {
+								$(event.target).attr('class', 'cards-show');
+								storeArr(event);
+								// $(event.target).off('click');
+								console.log(imgAlt);
+								click++;
+								//match function only called every 2 clicks
+								if (click % 2 === 0) {
+									matchStoredArr();
+								}
+							}
+						});
+					imgIndex++;
+
+					$img.attr('src', data.image);
+					$('#container').append($img);
 				},
 				() => {
 					alert('Error something went wrong');
 				}
 			);
 		}
+
+		//Mirror - setTimeout to wait for AJAX call to be complete before running
+		console.log('running mirror');
+		setTimeout(() => {
+			//For loop exit condition set as numOfCards is so that loop will iterate the same amount of times as AJAX call
+			for (let j = 0; j < numOfCards; j++) {
+				//randomNumberGenerator argument passed as cardFront.length is because array is being spliced each iteration
+				let storedRandomNumber = randomNumberGenerator(
+					cardFront.length,
+					0
+				);
+				const $img = $('<img>')
+					.attr('alt', alt[storedRandomNumber])
+					.addClass('cards-hide')
+					.attr('id', imgIndex)
+					.on('click', (event) => {
+						//prevent double click on same card bug
+						if ($(event.target).attr('class') !== 'cards-show') {
+							$(event.target).attr('class', 'cards-show');
+							storeArr(event);
+							// $(event.target).off('click');
+							console.log(imgAlt);
+							click++;
+							//match function only called every 2 clicks
+							if (click % 2 === 0) {
+								matchStoredArr();
+							}
+						}
+					});
+				imgIndex++;
+
+				$img.attr('src', cardFront[storedRandomNumber]);
+				$('#container').append($img);
+				alt.splice(storedRandomNumber, 1);
+				cardFront.splice(storedRandomNumber, 1);
+				console.log(alt);
+				console.log(cardFront);
+			}
+		}, 3000);
 	};
 
 	// //function to generate desired number of cards
@@ -156,5 +186,6 @@ $(() => {
 		imgAlt.splice(0, 2);
 	};
 
-	generateCards(8);
+	//will generate x2 amount of cards because of mirror
+	generateCards(numOfCards);
 });
