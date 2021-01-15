@@ -1,32 +1,27 @@
-* {
-	border: 2px solid gold;
-}
 body {
-	border: solid red;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
-	/* flex-direction: column; */
-	/* justify-content: center; */
-	/* width: 800px;
-	height: 800px; */
+	background-color: black;
 }
 #btn-container {
-	border: solid teal;
 	display: flex;
-	justify-content:space-around;
-	/* display: flex; */
-	/* height: 30px;
-	width: 300px; */
+	justify-content: space-around;
+	margin: 8px;
+}
+.badge {
+	margin: 5px;
 }
 #container {
-	border: 5px solid violet;
+	border: 1px solid whitesmoke;
+	margin: 2px;
 	width: 360px;
 	height: 600px;
 	display: flexbox;
-	
 	flex-wrap: wrap;
+	background: url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/d7ae21af-7b8f-4f38-9c0c-e89de27923c9/dbd1vjs-b1c57fac-156e-4ead-9984-f757c2552386.jpg/v1/fill/w_1024,h_1657,q_75,strp/star_wars__episode_iv___a_new_hope___poster_by_visutox_dbd1vjs-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3siaGVpZ2h0IjoiPD0xNjU3IiwicGF0aCI6IlwvZlwvZDdhZTIxYWYtN2I4Zi00ZjM4LTljMGMtZTg5ZGUyNzkyM2M5XC9kYmQxdmpzLWIxYzU3ZmFjLTE1NmUtNGVhZC05OTg0LWY3NTdjMjU1MjM4Ni5qcGciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.bDTNSPKGmFtYYljSxBiYS-Kb857cjOXMMc47fR1w1JA');
+	background-size: cover;
 }
 .cards-show {
 	display: inline-block;
@@ -34,9 +29,7 @@ body {
 	height: 80px;
 	margin: 2px;
 	box-sizing: border-box;
-	/* padding-left: 100px; */
 	border: solid black;
-	/* flex: 0 0 22%; */
 }
 .cards-hide {
 	display: inline-block;
@@ -46,6 +39,6 @@ body {
 	box-sizing: border-box;
 	padding-left: 60px;
 	border: solid black;
-	/* flex: 0 0 22%; */
-	background: url('https://upload.wikimedia.org/wikipedia/en/thumb/8/87/StarWarsMoviePoster1977.jpg/220px-StarWarsMoviePoster1977.jpg');
+	background: url('https://s.wsj.net/public/resources/images/OG-DN157_201912_8SR_20191205164120.jpg');
+	background-size: cover;
 }
