@@ -11,6 +11,7 @@ $(() => {
 	//imgIndex variable is used to set id for img so that it is in running order
 	//cardFront array is used to store images from AJAX call - to be used for mirror
 	//alt array is used to store name of characters from AJAX call - to be used for mirror
+	//win count are 45, 190, 435 for easy, medium, hard
 	const imgID = [];
 	const imgAlt = [];
 	let click = 0;
@@ -18,6 +19,7 @@ $(() => {
 	const cardFront = [];
 	const alt = [];
 	let imgIndex = 0;
+	let win = [];
 
 	const $buttonContainer = $('<div>').attr({
 		id: 'btn-container',
@@ -189,12 +191,22 @@ $(() => {
 		$(`#${imgID[0]}, #${imgID[1]}`).fadeTo(250, 0);
 	};
 
+	const resetGame = () => {
+		alert('You Win!');
+		location.reload();
+	};
+
 	//function to match img alt string
 	const matchStoredArr = () => {
 		if (imgAlt[0] === imgAlt[1]) {
-			// console.log(imgID);
+			imgAlt.forEach((element) => {
+				win.push(element);
+			});
 			removeCards();
 			imgID.splice(0, 2);
+			if (win.length === numOfCards * 2) {
+				setTimeout(resetGame, 350);
+			}
 		} else {
 			console.log('***NOT A MATCH***');
 			setTimeout(hideCards, 250);
