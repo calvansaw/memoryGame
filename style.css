@@ -2,34 +2,49 @@
 	border: 2px solid gold;
 }
 body {
+	border: solid red;
 	display: flex;
-	flex-wrap: wrap;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	/* flex-direction: column; */
+	/* justify-content: center; */
+	/* width: 800px;
+	height: 800px; */
+}
+#btn-container {
+	border: solid teal;
+	display: flex;
+	justify-content:space-around;
+	/* display: flex; */
+	/* height: 30px;
+	width: 300px; */
 }
 #container {
 	border: 5px solid violet;
-	width: 500px;
+	width: 360px;
+	height: 600px;
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 	flex-wrap: wrap;
 }
-.cards-show{
-	display: block;
-	width: 100px;
-	height: 150px;
-	margin: 5px;
+.cards-show {
+	display: inline-block;
+	width: 60px;
+	height: 80px;
+	margin: 2px;
 	box-sizing: border-box;
 	/* padding-left: 100px; */
 	border: solid black;
 	/* flex: 0 0 22%; */
-	
 }
-.cards-hide{
-	display: block;
-	width: 100px;
-	height: 150px;
-	margin: 5px;
+.cards-hide {
+	display: inline-block;
+	width: 60px;
+	height: 80px;
+	margin: 2px;
 	box-sizing: border-box;
-	padding-left: 100px;
+	padding-left: 60px;
 	border: solid black;
 	/* flex: 0 0 22%; */
 	background: url('https://upload.wikimedia.org/wikipedia/en/thumb/8/87/StarWarsMoviePoster1977.jpg/220px-StarWarsMoviePoster1977.jpg');

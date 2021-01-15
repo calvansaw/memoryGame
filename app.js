@@ -19,6 +19,27 @@ $(() => {
 	const alt = [];
 	let imgIndex = 0;
 
+	const $buttonContainer = $('<div>').attr({
+		id: 'btn-container',
+		class: 'd-grid gap-2 col-6 mx-auto',
+	});
+	$('body').append($buttonContainer);
+
+	const easyButton = $('<button>').attr({
+		type: 'button',
+		class: 'btn btn-primary btn-lg',
+	});
+	const mediumButton = $('<button>').attr({
+		type: 'button',
+		class: 'btn btn-warning btn-lg',
+	});
+	const hardButton = $('<button>').attr({
+		type: 'button',
+		class: 'btn btn-danger btn-lg',
+	});
+
+	$($buttonContainer).append(easyButton, mediumButton, hardButton);
+
 	const randomNumberGenerator = (multiply, lowest) => {
 		return Math.floor(Math.random() * multiply) + lowest;
 	};
