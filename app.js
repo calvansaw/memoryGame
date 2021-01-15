@@ -58,6 +58,26 @@ $(() => {
 
 	$($buttonContainer).append(easyButton, mediumButton, hardButton);
 
+	let min = 0;
+	let sec = 0;
+	const $min = $('<span>').addClass('badge rounded-pill bg-info').text(min);
+	const $sec = $('<span>').addClass('badge rounded-pill bg-info').text(sec);
+	const $timerContainer = $('<div>');
+	$('body').append($timerContainer);
+	$timerContainer.append($min, $sec);
+	const runTimer = () => {
+		const time = setInterval(() => {
+			sec++;
+			$sec.text(sec);
+			console.log(sec);
+			if (sec === 59) {
+				sec = 0;
+				min++;
+				$min.text(min);
+			}
+		}, 1000);
+	};
+
 	const randomNumberGenerator = (multiply, lowest) => {
 		return Math.floor(Math.random() * multiply) + lowest;
 	};
@@ -155,51 +175,9 @@ $(() => {
 				console.log(alt);
 				console.log(cardFront);
 			}
+			runTimer();
 		}, 3000);
 	};
-
-	// //function to generate desired number of cards
-	// const generateCards = (numOfCards) => {
-	// 	let imgIndex = 0;
-	// 	let altIndex = 0;
-	// 	for (let i = 0; i < numOfCards; ) {
-	// 		//loop to repeat imgIndex twice
-	// 		for (let j = 0; j < 2; j++) {
-	// 			const $img = $('<img>')
-	// 				.attr('alt', alt[altIndex])
-	// 				.addClass('cards-hide')
-	// 				.attr('id', i)
-	// 				//event listener and handler on 'click' (show image, match img alt text)
-	// 				.on('click', (event) => {
-	// 					$(event.target).attr('class', 'cards-show');
-	// 					storeArr(event);
-
-	// 					console.log(imgAlt);
-	// 					click++;
-	// 					//match function only called every 2 clicks
-	// 					if (click % 2 === 0) {
-	// 						matchStoredArr();
-	// 					}
-	// 				});
-	// 			i++;
-	// 			$img.attr('src', cardFront[imgIndex]);
-	// 			$('#container').append($img);
-	// 		}
-	// 		altIndex++;
-	// 		imgIndex++;
-
-	// 		//condition to reset imgIndex based on how many img stored in array
-	// 		if (imgIndex > cardFront.length - 1) {
-	// 			imgIndex = 0;
-	// 		}
-	// 		//condition to reset altIndex
-	// 		if (altIndex > alt.length - 1) {
-	// 			altIndex = 0;
-	// 		}
-	// 		// $img.attr('src', cardFront[imgIndex]);
-	// 		// imgIndex++;
-	// 	}
-	// };
 
 	const hideCards = () => {
 		$(`#${imgID[0]}, #${imgID[1]}`).attr('class', 'cards-hide');

@@ -24,8 +24,8 @@ body {
 	border: 5px solid violet;
 	width: 360px;
 	height: 600px;
-	display: flexbox
-	/* justify-content: space-between; */
+	display: flexbox;
+	
 	flex-wrap: wrap;
 }
 .cards-show {
