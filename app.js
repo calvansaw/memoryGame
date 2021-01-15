@@ -5,6 +5,7 @@ $(() => {
 	// const cardBack =
 	// 	'https://upload.wikimedia.org/wikipedia/en/thumb/8/87/StarWarsMoviePoster1977.jpg/220px-StarWarsMoviePoster1977.jpg';
 
+	//numOfCards is used to set difficulty
 	//imgID array is used to hide and remove cards
 	//imgAlt array is used to match cards
 	//imgIndex variable is used to set id for img so that it is in running order
@@ -13,7 +14,7 @@ $(() => {
 	const imgID = [];
 	const imgAlt = [];
 	let click = 0;
-	const numOfCards = 8;
+	const numOfCards = 10;
 	const cardFront = [];
 	const alt = [];
 	let imgIndex = 0;
@@ -168,7 +169,7 @@ $(() => {
 	};
 
 	const removeCards = () => {
-		$(`#${imgID[0]}, #${imgID[1]}`).fadeOut(250);
+		$(`#${imgID[0]}, #${imgID[1]}`).fadeTo(250, 0);
 	};
 
 	//function to match img alt string
