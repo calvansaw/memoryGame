@@ -14,7 +14,7 @@ $(() => {
 	const imgID = [];
 	const imgAlt = [];
 	let click = 0;
-	const numOfCards = 10;
+	let numOfCards = 0;
 	const cardFront = [];
 	const alt = [];
 	let imgIndex = 0;
@@ -25,18 +25,36 @@ $(() => {
 	});
 	$('body').append($buttonContainer);
 
-	const easyButton = $('<button>').attr({
-		type: 'button',
-		class: 'btn btn-primary btn-lg',
-	});
-	const mediumButton = $('<button>').attr({
-		type: 'button',
-		class: 'btn btn-warning btn-lg',
-	});
-	const hardButton = $('<button>').attr({
-		type: 'button',
-		class: 'btn btn-danger btn-lg',
-	});
+	const easyButton = $('<button>')
+		.attr({
+			type: 'button',
+			class: 'btn btn-primary btn-lg',
+		})
+		.text('EASY')
+		.on('click', () => {
+			numOfCards = 5;
+			generateCards(numOfCards);
+		});
+	const mediumButton = $('<button>')
+		.attr({
+			type: 'button',
+			class: 'btn btn-warning btn-lg',
+		})
+		.text('MEDIUM')
+		.on('click', () => {
+			numOfCards = 10;
+			generateCards(numOfCards);
+		});
+	const hardButton = $('<button>')
+		.attr({
+			type: 'button',
+			class: 'btn btn-danger btn-lg',
+		})
+		.text('HARD')
+		.on('click', () => {
+			numOfCards = 15;
+			generateCards(numOfCards);
+		});
 
 	$($buttonContainer).append(easyButton, mediumButton, hardButton);
 
@@ -209,5 +227,5 @@ $(() => {
 	};
 
 	//will generate x2 amount of cards because of mirror
-	generateCards(numOfCards);
+	// generateCards(numOfCards);
 });
