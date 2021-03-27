@@ -111,7 +111,7 @@ $(() => {
 		for (let i = 0; i < setCards; i++) {
 			$.ajax({
 				url:
-					'http://akabab.github.io/starwars-api/api/id/' +
+					'https://akabab.github.io/starwars-api/api/id/' +
 					randomNumberGenerator(54, 18) +
 					'.json',
 			}).then(
